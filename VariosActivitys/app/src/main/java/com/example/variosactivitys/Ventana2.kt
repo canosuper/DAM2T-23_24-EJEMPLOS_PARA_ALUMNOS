@@ -6,6 +6,9 @@ import android.util.Log
 import com.example.variosactivitys.databinding.ActivityVentana2Binding
 import modelo.Persona
 import modelo.Personas
+import android.content.Intent
+import android.app.Activity
+
 
 class Ventana2 : AppCompatActivity() {
     lateinit var binding: ActivityVentana2Binding
@@ -16,14 +19,15 @@ class Ventana2 : AppCompatActivity() {
         setContentView(binding.root)
         //setContentView(R.layout.activity_ventana2)
 
-        var nombre = intent.getStringExtra("nombre")
+        /*var nombre = intent.getStringExtra("nombre")
         var edad = intent.getStringExtra("edad")
-        var persona:Persona = Persona(nombre,edad)
-        binding.cajaNombre.setText(nombre)
-        binding.cajaEdad.setText(edad)
+        var persona:Persona = Persona(nombre,edad)*/
+        var p : Persona = intent.getSerializableExtra("obj") as Persona
+        binding.cajaNombre.setText(p.nombre)
+        binding.cajaEdad.setText(p.edad)
 
 
-        Personas.aniadirPersona(persona)
+        Personas.aniadirPersona(p)
         var cadena: String = ""
         var i:Int=1
         for(p in Personas.personas){
@@ -32,6 +36,18 @@ class Ventana2 : AppCompatActivity() {
             binding.multiLine.setText(cadena)
         }
         binding.boton.setOnClickListener {
+            finish()
+        }
+
+        //Devolver datos a la ventana 1 de forma deprecated.
+        binding.btDevolver.setOnClickListener {
+            // Get the text from the EditText
+            val stringToPassBack = binding.cajaDevolver.text.toString()
+
+            // Put the String to pass back into an Intent and close this activity
+            val intent = Intent()
+            intent.putExtra("keyName", stringToPassBack)
+            setResult(Activity.RESULT_OK, intent)//si cancelase o no rellena, se pasa RESULT_CANCELED
             finish()
         }
     }

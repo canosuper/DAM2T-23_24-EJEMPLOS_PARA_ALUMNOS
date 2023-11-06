@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "514109233141",
+    "project_id": "conexion-y-login-46778",
+    "storage_bucket": "conexion-y-login-46778.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514109233141:android:e2a9a0e623c032ef1d72bc",
+        "android_client_info": {
+          "package_name": "com.example.conexionyloginantonio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514109233141-rg50mg3plm7atf1hp38qhmmlh2l5d44f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.conexionyloginantonio",
+            "certificate_hash": "872c278f048171212c28125320a653f2bc15a093"
+          }
+        },
+        {
+          "client_id": "514109233141-a5qf8g52dhftl68l26nd4ed7fvdc8a88.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhBl66SoevZ8Iq8XCiwrmifCfX8WpAMCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514109233141-a5qf8g52dhftl68l26nd4ed7fvdc8a88.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

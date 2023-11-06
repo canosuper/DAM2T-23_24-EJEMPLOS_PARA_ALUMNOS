@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "514109233141",
+    "project_id": "conexion-y-login-46778",
+    "storage_bucket": "conexion-y-login-46778.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514109233141:android:e2a9a0e623c032ef1d72bc",
+        "android_client_info": {
+          "package_name": "com.example.conexionyloginantonio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhBl66SoevZ8Iq8XCiwrmifCfX8WpAMCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

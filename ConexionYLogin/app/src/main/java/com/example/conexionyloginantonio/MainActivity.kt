@@ -73,27 +73,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.btBorrarCache.setOnClickListener {
-//            Log.d("ACSCO","Entro den borrar cache")
-//            val cacheDirMio = applicationContext.cacheDir
-//            if(cacheDirMio.exists()){
-//                Log.d("ACSCO","Entro en el if")
-//                val cacheFiles=cacheDirMio.listFiles()
-//                for(file in cacheFiles){
-//                    Log.d("ACSCO","Entro en el for")
-//                    file.delete()
-//                }
-//            }
-            //clearGooglePlayServicesCache()
-        }
-
-
-
-// ...
-
-
-
-
 
         //------------------ Login Google -------------------
         //------------------------------- -Autenticación Google --------------------------------------------------
@@ -185,53 +164,13 @@ class MainActivity : AppCompatActivity() {
         }
         startActivity(homeIntent)
     }
-    override fun onRestart() {
-        //prueba de que el cierre de sesión funciona. Si se cierra en la Home, aquí lo notifica
-        super.onRestart()
-        //FirebaseAuth.getInstance().signOut()
-        Log.e("ACSCO", "ONRESTART(), Ventana 1")
-        if (firebaseauth.currentUser!=null)
-            Toast.makeText(this,firebaseauth.currentUser?.displayName,Toast.LENGTH_SHORT).show()
-        else
-            Toast.makeText(this,"Sesión cerrada",Toast.LENGTH_SHORT).show()
 
-    }
 
     override fun onDestroy() {
         super.onDestroy()
         FirebaseAuth.getInstance().signOut()
     }
 
-    // Pruebas forzado de ventana de Login de Google
 
-//    fun signOutAndClearCache() {
-//        // Cierra sesión en tu aplicación
-//        googleSignInClient.signOut()
-//            .addOnCompleteListener(this) {
-//                // Limpia la caché de Google Play Services
-//                clearGooglePlayServicesCache()
-//                // Inicia la pantalla de inicio de sesión
-//                val signInIntent = googleSignInClient.signInIntent
-//                startActivityForResult(signInIntent, RC_SIGN_IN)
-//            }
-//    }
-
-//    fun clearGooglePlayServicesCache() {
-//        try {
-//            Log.d("ACSCO","Entro en clear")
-//            val packageManager = packageManager
-//            val ai = packageManager.getApplicationInfo("com.google.android.gms", 0)
-//            val dir = ai.sourceDir
-//            val file = File(dir)
-//            if (file.exists()) {
-//                Log.d("ACSCO","Entro en el if del clear")
-//                file.delete()
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
-
-    // Fin Pruebas forzado de ventana de Login de Google
 
 }

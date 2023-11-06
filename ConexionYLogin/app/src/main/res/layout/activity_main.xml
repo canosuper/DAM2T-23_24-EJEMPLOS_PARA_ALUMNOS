@@ -19,18 +19,6 @@
         app:layout_constraintVertical_bias="0.684" />
 
     <Button
-        android:id="@+id/btBorrarCache"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text="Borrar Caché"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
-
-    <Button
         android:id="@+id/btLogin"
         android:layout_width="140dp"
         android:layout_height="40dp"

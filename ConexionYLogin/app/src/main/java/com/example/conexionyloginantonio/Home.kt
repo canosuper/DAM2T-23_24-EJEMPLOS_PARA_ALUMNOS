@@ -113,7 +113,8 @@ class Home : AppCompatActivity() {
             var roles : ArrayList<Int>
             //Búsqueda por id del documento.
             db.collection("users")
-                .document(binding.txtEmail.text.toString()).get()
+                .document(binding.txtEmail.text.toString())
+                .get()
                 .addOnSuccessListener {
                     //Si encuentra el documento será satisfactorio este listener y entraremos en él.
                     binding.edNombre.setText(it.get("name") as String?)
@@ -132,6 +133,32 @@ class Home : AppCompatActivity() {
                 }.addOnFailureListener{
                     Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
                 }
+            //Búsqueda por un campo del documento, con whereEqualTo, en vez de por id.
+            // Habría que asegurar que es un campo no repetido y la búsqueda sólo trae un documento, si no, se lee el primero
+//            db.collection("users")
+//                //.document(binding.txtEmail.text.toString())
+//                .whereEqualTo("age", binding.edEdad.text.toString())
+//                .get()
+//                .addOnSuccessListener {
+//                    //Si encuentra el documento será satisfactorio este listener y entraremos en él.
+//
+//                    Log.d(TAG, "${it.documents[0].id} => ${it.documents[0].data}")
+//                    binding.edNombre.setText(it.documents[0].get("name") as String?)
+//                    binding.edEdad.setText(it.documents[0].get("age") as String?)
+//                    if (it.documents[0].get("roles")!=null) {
+//                        roles = it.documents[0].get("roles") as ArrayList<Int>
+//                        Log.e(TAG,roles.toString())
+//                        binding.txtRoles.text=roles.toString()
+//                    }
+//                    else {
+//                        Log.e(TAG, "Sin roles")
+//                        binding.txtRoles.text="SIN ROLES"
+//                    }
+//
+//                    Toast.makeText(this, "Recuperado", Toast.LENGTH_SHORT).show()
+//                }.addOnFailureListener{
+//                    Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
+//                }
         }
 
         binding.btEliminar.setOnClickListener {
@@ -163,6 +190,7 @@ class Home : AppCompatActivity() {
             //Sin Corrutinas
             var al = ArrayList<String>()
             db.collection("users")
+                //.whereEqualTo("name",binding.edNombre.text)
                 .get()
                 .addOnSuccessListener {
                     for (document in it) {

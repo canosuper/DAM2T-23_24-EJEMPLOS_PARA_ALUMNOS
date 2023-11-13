@@ -57,4 +57,6 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx:22.2.0")
 
+    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
 }

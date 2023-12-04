@@ -1,10 +1,14 @@
 package com.example.conexionyloginantonio
 
+import android.Manifest
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
@@ -14,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import java.io.ByteArrayOutputStream
 import java.io.File
 
 class UsoStorage : AppCompatActivity() {
@@ -28,6 +33,33 @@ class UsoStorage : AppCompatActivity() {
     // Crea una referencia con la instancia singleton FirebaseStorage y con una llamada al método reference.
     var storageRef = storage.reference
     val TAG = "ACSCO"
+    private val cameraRequest = 1888
+    private lateinit var bitmap : Bitmap
+    val openCamera = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        Log.e(TAG,"ENTRO 4")
+        if (result.resultCode == RESULT_OK) {
+            Log.e(TAG,"ENTRO 5")
+            val data = result.data!!
+            this.bitmap = data.extras!!.get("data") as Bitmap
+            binding.imgImagen.setImageBitmap(bitmap)
+            Log.e(TAG,"ENTRO 6")
+        }
+    }
+    //Activity para pedir permisos de cámara.
+    val requestCameraPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        Log.e(TAG,"ENTRO 2")
+        if (isGranted) {
+            Log.e(TAG,"ENTRO 3")
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            //si quisieras vídeo. Poner el punto y ver resto de opciones que ofrece, que prueben alguna.
+            //val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+            openCamera.launch(intent)
+        } else {
+            Log.e(TAG,"Permiso de cámara no concedido")
+        }
+    }
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +67,10 @@ class UsoStorage : AppCompatActivity() {
         //setContentView(R.layout.activity_uso_storage)
         binding = ActivityUsoStorageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        binding.btCamara.setOnClickListener {
+            Log.e(TAG,"ENTRO 1")
+            requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+        }
         // Create a child reference
         // imagesRef now points to "images"
         var imagesRef: StorageReference? = storageRef.child("images")
@@ -82,7 +117,9 @@ class UsoStorage : AppCompatActivity() {
         binding.btCargar.setOnClickListener {
             fileUpload()
         }
-
+        binding.btCargar2.setOnClickListener {
+            fileUploadCamara()
+        }
         binding.btnDescargar.setOnClickListener {
             fileDownload()
         }
@@ -140,6 +177,32 @@ class UsoStorage : AppCompatActivity() {
         }
         else {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+    }
+
+    fun fileUploadCamara(){
+        var nomImagen=binding.txtNombreImagen.text.toString()
+        if(nomImagen==""){
+            Toast.makeText(this,"Introduce un nombre para la imagen", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // Get the data from an ImageView as bytes
+            //binding.imgImagen.isDrawingCacheEnabled = true
+            //binding.imgImagen.buildDrawingCache()
+            val bitmap = (binding.imgImagen.drawable as BitmapDrawable).bitmap
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+
+            // Create a reference to "mountains.jpg"
+            val fotoCamara = storageRef.child("images/$nomImagen")
+
+            var uploadTask = fotoCamara.putBytes(data)
+            uploadTask.addOnFailureListener {
+                Toast.makeText(this,"Error en la subida", Toast.LENGTH_SHORT).show()
+            }.addOnSuccessListener { taskSnapshot ->
+                Toast.makeText(this,"Imagen subida correctamente", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

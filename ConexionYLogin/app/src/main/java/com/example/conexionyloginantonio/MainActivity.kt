@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+
 import com.example.conexionyloginantonio.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -72,7 +73,10 @@ class MainActivity : AppCompatActivity() {
                 showAlert("Rellene los campos")
             }
         }
-
+        binding.btnStorage.setOnClickListener {
+            val storageIntent = Intent(this, UsoStorage::class.java)
+            startActivity(storageIntent)
+        }
 
         //------------------ Login Google -------------------
         //------------------------------- -Autenticación Google --------------------------------------------------

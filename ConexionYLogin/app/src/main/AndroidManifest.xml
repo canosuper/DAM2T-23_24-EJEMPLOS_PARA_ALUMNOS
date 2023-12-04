@@ -13,6 +13,9 @@
         android:theme="@style/Theme.ConexionYLoginAntonio"
         tools:targetApi="31">
         <activity
+            android:name=".UsoStorage"
+            android:exported="false" />
+        <activity
             android:name=".Home"
             android:exported="false" />
         <activity

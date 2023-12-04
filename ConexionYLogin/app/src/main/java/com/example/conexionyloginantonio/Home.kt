@@ -14,6 +14,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -188,53 +189,52 @@ class Home : AppCompatActivity() {
         //https://cloud.google.com/firestore/docs/query-data/queries?hl=es-419#kotlin+ktxandroid_3
         binding.btRecuperarTodos.setOnClickListener {
             //Sin Corrutinas
-            var al = ArrayList<String>()
-            db.collection("users")
-                //.whereEqualTo("name",binding.edNombre.text)
-                .get()
-                .addOnSuccessListener {
-                    for (document in it) {
-                        al.add(document.data.toString())
-                        Log.d(TAG, "${document.id} => ${document.data}")
-//                        var us = User(document.get("age") as String,document.get("first") as String,document.get("last") as String,document.get("roles") as ArrayList<Int>)
-//                        this.miArray.add(us)
-                        Log.d(TAG, al.toString())//Se va construyendo el array, y lo mostramos
-                    }
-
-                }
-                .addOnFailureListener { exception ->
-                    Log.w(TAG, "Error getting documents.", exception)
-                }
-            Log.e(TAG, "Aunque el código va después de la llamada el ArrayList está vacío: ${al.toString()}")
+            //var al = ArrayList<String>()
+//            db.collection("users")
+//                //.whereEqualTo("name",binding.edNombre.text)
+//                .get()
+//                .addOnSuccessListener {
+//                    for (document in it) {
+//                        al.add(document.data.toString())
+//                        Log.d(TAG, "${document.id} => ${document.data}")
+////                        var us = User(document.get("age") as String,document.get("first") as String,document.get("last") as String,document.get("roles") as ArrayList<Int>)
+////                        this.miArray.add(us)
+//                        Log.d(TAG, al.toString())//Se va construyendo el array, y lo mostramos
+//                    }
+//
+//                }
+//                .addOnFailureListener { exception ->
+//                    Log.w(TAG, "Error getting documents.", exception)
+//                }
+//            Log.e(TAG, "Aunque el código va después de la llamada el ArrayList está vacío: ${al.toString()}")
 
             //Observamos que esto nos da un AL vacío porque la consulta es asíncrona y necesitaremos hacerla con una corrutina.
 
 
             //Corrutinas 1.
-//            var al = ArrayList<String>()
-//            GlobalScope.launch(Dispatchers.IO) {
-//                try {
-//                    val querySnapshot = db.collection("users")
-//                        .get()
-//                        .await()
-//
-//                    val results = mutableListOf<String>()
-//
-//                    for (document in querySnapshot.documents) {
-//                        Log.d(TAG, "${document.id} => ${document.data}")
-//                        al.add(document.data.toString())
-//                    }
-//
-//                    // Realiza acciones en el hilo principal
-//                    launch(Dispatchers.Main) {
-//                        // Procesa los resultados aquí
-//                        Log.e(TAG, "Esto está en el hilo principal rellenado después de la corrutina: ${al.toString()}")
-//                    }
-//                } catch (e: Exception) {
-//                    // Maneja errores aquí
-//                    e.printStackTrace()
-//                }
-//            }
+            var al = ArrayList<String>()
+            GlobalScope.launch(Dispatchers.IO) {
+                try {
+                    val querySnapshot = db.collection("users")
+                        .get()
+                        .await()
+
+                    val results = mutableListOf<String>()
+                    for (document in querySnapshot.documents) {
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                        al.add(document.data.toString())
+                    }
+
+                    // Realiza acciones en el hilo principal
+                    launch(Dispatchers.Main) {
+                        // Procesa los resultados aquí
+                        Log.e(TAG, "Esto está en el hilo principal rellenado después de la corrutina: ${al.toString()}")
+                    }
+                } catch (e: Exception) {
+                    // Maneja errores aquí
+                    e.printStackTrace()
+                }
+            }
 //
 //            //Corrutinas 2.
 //            runBlocking {
